@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Story by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/daneden/animate.css/master/animate.css">
+
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+		  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		  <script type="text/javascript">
+			google.load("visualization", "1", {packages:["corechart"]});
+			google.setOnLoadCallback(drawChart);
+
+			function drawChart() {
+				var data = google.visualization.arrayToDataTable([
+					['Doenças', 'Link', 'Número'],             
+					['EM'     , 'https://raw.githubusercontent.com/bioradar/bioradar.github.io/master/resources/EM.txt' , 54],
+					['DMD'    , 'https://raw.githubusercontent.com/bioradar/bioradar.github.io/master/resources/DMD.txt', 18],
+					['DM1'    , 'https://raw.githubusercontent.com/bioradar/bioradar.github.io/master/resources/DM1.txt', 7 ],
+					['PV'     , 'https://raw.githubusercontent.com/bioradar/bioradar.github.io/master/resources/PV.txt' , 2 ],
+					['VT'     , 'https://raw.githubusercontent.com/bioradar/bioradar.github.io/master/resources/VT.txt' , 4 ],
+					['ES'     , 'https://raw.githubusercontent.com/bioradar/bioradar.github.io/master/resources/ES.txt' , 14]
+				]);
+
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 2]);
+
+				var options = {
+					title: ''
+				};
+				var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+				chart.draw(view, options);
+				$("#details").hide();
+
+				var selectHandler = function(e) {
+					var selectedItem = chart.getSelection()[0];
+
+					if(selectedItem) {
+						$("#details").hide();
+						$("#main-bio").hide();
+						$.get(data.getValue(selectedItem['row'], 1 ), function(response) {
+							$("#result").text(response);
+						});
+						$("#details").show();
+					}
+			    }
+			  // Add our selection handler.
+			  google.visualization.events.addListener(chart, 'select', selectHandler);
+			}
+
+
+			function reset() {
+					$("#result").text("");
+					$("#details").hide();
+					$("#main-bio").show();
+
+			}
+
+		  </script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper" class="divided">
+
+					<section class="wrapper align-center">
+						<div class="inner">	<h2>BioProjects com amostras de pacientes</h2> </div>
+					</section>
+
+
+				<!-- Banner -->
+					<section class="banner style1 orient-left content-align-left image-position-right fullscreen wow slideInLeft">
+						<div id="main-bio" class="content wow slideInLeft fixed">
+							  <div id="chart_div" style="width: 1000px; height: 600px;"></div>
+						</div>
+
+						<div id="details" class="content   fullscreen  content-align-right wow slideInLeft">
+							
+							<a href="#first" id="btn-back" onClick="reset();" class="button big wide smooth-scroll-middle fullscreen">Back</a>
+							<p class="major" id="result"></p>
+						</div>
+
+
+					</section>
+
+
+
+				<!-- Footer -->
+					<footer class="wrapper style1 align-center">
+						<div class="inner">
+							<ul class="icons">
+								<li><a href="#" class="icon style2 fa-envelope"><span class="label">Email</span></a></li>
+							</ul>
+						</div>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+		<!-- Note: Only needed for demo purposes. Delete for production sites. -->
+			<script src="assets/js/demo.js"></script>
+			<script src="assets/js/wow.min.js"></script>
+			<script>
+				new WOW().init();
+			</script>
+
+	</body>
+</html>
